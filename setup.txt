@@ -1,0 +1,2 @@
+npm init -f
+npm install --save sequelize sqlite3 crypto-js chalk
