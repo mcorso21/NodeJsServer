@@ -1,7 +1,9 @@
 # Custom
-*/setup.txt
+setup.txt
 prettier.config.js
 */package-lock.json
+*.env
+config.js
 
 # Logs
 logs
