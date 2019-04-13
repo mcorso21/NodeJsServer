@@ -1,18 +1,20 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha --recursive"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "chalk": "^2.4.2",
-    "mocha": "^6.0.2",
-    "sequelize": "^5.2.8",
-    "sqlite3": "^4.0.6"
-  }
+	"name": "server",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"prod": "node ./main.js --environment=prod --loglevel=info",
+		"dev": "node ./main.js --environment=dev --loglevel=trace",
+		"test": "mocha ./_test --recursive"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"chalk": "^2.4.2",
+		"mocha": "^6.0.2",
+		"sequelize": "^5.2.8",
+		"sqlite3": "^4.0.6"
+	}
 }

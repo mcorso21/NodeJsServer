@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+const { logger } = require("./logger");
 
 var genSalt = function(saltLength) {
 	return crypto
@@ -9,15 +10,19 @@ var genSalt = function(saltLength) {
 
 module.exports = {
 	hash(algo, pw) {
-		let salt = genSalt(12);
-		let alg = crypto.createHmac(algo, salt);
-		alg.update(pw);
-		let hashedPw = alg.digest("hex");
+		try {
+			let salt = genSalt(12);
+			let alg = crypto.createHmac(algo, salt);
+			alg.update(pw);
+			let hashedPw = alg.digest("hex");
 
-		return {
-			salt: salt,
-			hashedPw: hashedPw,
-		};
+			return {
+				salt: salt,
+				hashedPw: hashedPw,
+			};
+		} catch (ex) {
+			
+		}
 	},
 
 	compare(algo, pw, salt, hashedPw) {

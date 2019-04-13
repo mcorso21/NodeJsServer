@@ -1,5 +1,5 @@
 const assert = require("assert");
-const encrypt = require("../../shared/encrypt");
+const encrypt = require("../../_shared/encrypt");
 
 describe("Testing shared/encrypt.js", function() {
 	let algo = "sha256";
