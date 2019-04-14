@@ -1,7 +1,7 @@
 const assert = require("assert");
 const encrypt = require("../../_shared/encrypt");
 
-describe("Testing shared/encrypt.js", function() {
+describe("Testing _shared/encrypt.js", function() {
 	let algo = "sha256";
 	let unHashed = `${Math.random()
 		.toString(36)
@@ -13,7 +13,7 @@ describe("Testing shared/encrypt.js", function() {
 	let hashedPw = "";
 
 	describe("encrypt.hash()", function() {
-		beforeEach(function() {
+		before(function() {
 			let temp = encrypt.hash(algo, unHashed);
 			salt = temp.salt;
 			hashedPw = temp.hashedPw;

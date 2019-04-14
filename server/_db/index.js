@@ -10,9 +10,8 @@ var dbConfigs = config.getDbConfigs();
 var dbs = [];
 dbConfigs.forEach(db => {
 	try {
-		dbs.push(
-			new Sequelize(db.database, db.username, db.password, db.options)
-		);
+		if (process.env.ENVIRONMENT === "test") db.options.logging = false;
+		dbs.push(new Sequelize(db.database, db.username, db.password, db.options));
 		log(`Successfully configured db: '${db.database}'...`, "info");
 	} catch (ex) {
 		log(`Failed to configure db: '${db.database}'...`, "error");
@@ -42,9 +41,7 @@ log("Parsing DB models...", "trace");
 						model = null;
 					// Try to match folder name with a db name
 					// If there's a matching db name use that otherwise use the default (first) db
-					potentialDbName = `${
-						process.env.ENVIRONMENT
-					}-${path.basename(dir)}`;
+					potentialDbName = `${process.env.ENVIRONMENT}-${path.basename(dir)}`;
 
 					dbMatches = Object.keys(dbs).filter(key => {
 						return (
@@ -53,10 +50,7 @@ log("Parsing DB models...", "trace");
 						);
 					});
 
-					actualDbName =
-						dbMatches.length == 1
-							? potentialDbName
-							: dbs[0].config.database;
+					actualDbName = dbMatches.length == 1 ? potentialDbName : dbs[0].config.database;
 
 					// Add the model
 					db = dbs.find(db => {
@@ -65,9 +59,7 @@ log("Parsing DB models...", "trace");
 
 					model = db.import(path.join(dir, fileName));
 					log(
-						`Successfully added model: '${
-							model.name
-						}' to db: '${actualDbName}'`,
+						`Successfully added model: '${model.name}' to db: '${actualDbName}'`,
 						"info"
 					);
 				} catch (ex) {
@@ -96,26 +88,18 @@ Object.keys(dbs).forEach(db => {
 });
 
 Object.keys(dbs).forEach(db => {
-	log(
-		`Checking for associations in db: '${dbs[db].config.database}'`,
-		"trace"
-	);
+	log(`Checking for associations in db: '${dbs[db].config.database}'`, "trace");
 	Object.keys(dbs[db].models).forEach(model => {
 		log(`Checking for associations in model: '${model}'`, "trace");
 		if (typeof dbs[db].models[model].createAssocations === "function") {
 			try {
 				dbs[db].models[model].createAssocations(allModels);
 				log(
-					`Successfully added associations for model: '${
-						dbs[db].models[model].name
-					}'`,
+					`Successfully added associations for model: '${dbs[db].models[model].name}'`,
 					"info"
 				);
 			} catch (ex) {
-				log(
-					`Failed to configure association for model: '${model}'`,
-					"error"
-				);
+				log(`Failed to configure association for model: '${model}'`, "error");
 				log(ex.message, "error");
 				process.exit();
 			}
@@ -124,5 +108,6 @@ Object.keys(dbs).forEach(db => {
 });
 
 module.exports = {
-	dbs,
+	dbs: dbs,
+	models: allModels
 };

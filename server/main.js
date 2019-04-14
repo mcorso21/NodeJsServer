@@ -18,21 +18,37 @@ log(`LOGLEVEL set to '${process.env.LOGLEVEL}'`, "trace");
 //
 const config = require("./_shared/config");
 const Sequelize = require("sequelize");
-const { dbs } = require("./_db");
+const { dbs, models } = require("./_db");
 const path = require("path");
 
 // Build Databases
 log("Building Databases...", "trace");
-let dbsCreated = 0;
+let dbPromises = [];
 
 Object.keys(dbs).forEach(function(key) {
-	try {
-		dbs[key].sync({ force: true });
-		log(`Successfully built '${dbs[key].config.database}'...`, "info");
-	} catch (ex) {
-		log(`Failed to build '${dbs[key].config.database}'`, "error");
-		process.exit();
-	}
+	dbPromises.push(
+		new Promise((resolve, reject) => {
+			try {
+				dbs[key].sync({ force: false }).then(() => {
+					log(
+						`Successfully built '${dbs[key].config.database}'...`,
+						"info"
+					);
+					resolve();
+				});
+			} catch (ex) {
+				log(`Failed to build '${dbs[key].config.database}'`, "error");
+				reject();
+				process.exit();
+			}
+		})
+	);
+});
+const UserController = require("./_db/controllers/users/UserController");
+Promise.all(dbPromises).then(vals => {
+	
+	
+	return;
 });
 
-function initServer() {}
+UserController.create({ email: "fsafas4242" });

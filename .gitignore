@@ -5,6 +5,7 @@ prettier.config.js
 */package-lock.json
 *.env
 config.js
+*.sqlite
 
 # Logs
 logs

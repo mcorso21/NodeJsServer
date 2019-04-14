@@ -9,6 +9,7 @@ const logLevels = {
 	warn: 3,
 	error: 4,
 	fatal: 5,
+	nolog: 6, // Set process.env.LOGLEVEL to this to turn logging off (used for test suite)
 };
 
 function getFormatedDateTime() {
