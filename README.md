@@ -1,11 +1,12 @@
 # NodeJsServer
 
-Generic NodeJS server
+Generic NodeJS server using Sequelize, SQLite, and Express
 
 ## DB Configuration
 
 1. Specify the DB Configurations
 
+    - This repo is designed to work with SQLite, which is why there are multiple DBs, the reduce the effect of DB locks.
     - Create a config file: 'server/\_shared/config.js'. This file should include your various configurations which can be formatted however you like. The only constraints are:
 
         - Sequelize DB configs are obtained from here by 'server/\_db/index.js' calling 'config.getDbConfigs()'. The expected return is a list of database configurations.

@@ -4,13 +4,8 @@ const { log } = require("../../../_shared/logger");
 const path = require("path");
 
 /* VARIABLES-START */
-const User = require("../../index").models.User; //.dbs;//[`${process.env.ENVIRONMENT}-users`].models;
+const { User } = require("../../index").models;
 const Entity = User;
-// const queryLimit = 10
-// if (dbs[key].config.database === "dev-users") {
-//     log("USER!", "error")
-//     let record = dbs[key].models.User.create({email: "myfockinemail"})
-// }
 
 /* VARIABLES-END */
 
@@ -18,7 +13,7 @@ module.exports = {
 	async queryByPk(recordPk) {
 		try {
 			log(`In ${path.basename(__filename)}-queryById`, "trace");
-			log(`recordPk:${recordPk}`, "trace")
+			log(`recordPk:${recordPk}`, "trace");
 			const record = await Entity.findByPk(recordPk);
 			if (record) log(`QueryByPk succeeded for ${Entity.name} with PK: ${recordPk}`, "info");
 			else log(`QueryByPk failed for ${Entity.name} with PK: ${recordPk}`, "info");
@@ -33,7 +28,12 @@ module.exports = {
 	},
 	async create(newRecord) {
 		try {
-			log(`In ${path.basename(__filename)}-create\nParams:\newRecord:${JSON.stringify(newRecord)}`, "trace");
+			log(
+				`In ${path.basename(__filename)}-create\nParams:\newRecord:${JSON.stringify(
+					newRecord
+				)}`,
+				"trace"
+			);
 			log(`newRecord:\n${JSON.stringify(newRecord)}`, "trace");
 			const record = await Entity.create(newRecord);
 			log(`Created new ${Entity.name}:\n${JSON.stringify(record)}`, "info");

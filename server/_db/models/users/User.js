@@ -10,8 +10,8 @@ module.exports = (DB, DataTypes) => {
 			type: DataTypes.STRING,
 			unique: true,
 		},
-		password: DataTypes.STRING,
-		salt: DataTypes.STRING,
+		username: DataTypes.STRING,
+		publicalias: DataTypes.STRING,
 	});
 
 	User.createAssocations = function(models) {

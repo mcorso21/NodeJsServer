@@ -51,4 +51,3 @@ Promise.all(dbPromises).then(vals => {
 	return;
 });
 
-UserController.create({ email: "fsafas4242" });
